@@ -1,4 +1,4 @@
-package com.mycompany.calculator;
+package calculator;
 
 import java.awt.Color;
 
@@ -610,18 +610,20 @@ public class Calculator extends javax.swing.JFrame {
 
     private javax.swing.JTextField[] fields;
     private javax.swing.JButton[] buttons;
-    private String lastAns;
+    private String lastAns;     // Variable to handle "ans"
     
     // Methods
     
     // Initializes the calculator
     // Simulates the AC button
     private void initCalculator() {
+        // Text fields
         fields = new javax.swing.JTextField[] {
             fieldPreviousNumber, fieldOperator,
             fieldCurrentNumber
         };
         
+        // Buttons
         buttons = new javax.swing.JButton[] {
             buttonAC,   buttonC,   buttonAns,     buttonBack,
             buttonPow,  buttonMod, buttonSqrt,    buttonDivide,
@@ -857,7 +859,7 @@ public class Calculator extends javax.swing.JFrame {
         
         switch (op) {
             case "√":
-                // If the number is negative, throw an exception
+                // Throw an exception for √(-x)
                 if (a < 0) {
                     return exception("Invalid input");
                 }
@@ -875,7 +877,8 @@ public class Calculator extends javax.swing.JFrame {
     
     // For binary operators
     private String calculate(String num1, String num2, String op) {
-        // if equal button is pressed without any operations
+        // If equal button is pressed without any operations
+        // or the operator is unary
         if (num1.isEmpty() || operatorIsUnary(op)) return calculate(num2, op);
         
         double a, b, res;
@@ -885,7 +888,7 @@ public class Calculator extends javax.swing.JFrame {
         
         switch (op) {
             case "÷":
-                // If the denominator is 0, throw an exception
+                // Throw an exception for x/0
                 if (b == 0) {
                     if (a == 0) return exception("Undefined");
                     return exception("Infinity");
@@ -897,6 +900,7 @@ public class Calculator extends javax.swing.JFrame {
             case "+": res = a+b; break;
             case "^": res = Math.pow(a,b); break;
             case "%":
+                // Throw an exception for x%0
                 if (b == 0) return exception("Invalid input");
                 res = a%b;
             break;
